@@ -1,42 +1,50 @@
-//deposit button event handler
-        const deposit_btn = document.getElementById('deposit-btn');
-        deposit_btn.addEventListener('click', function(){
+```javascript
+// Deposit button event handler
+const deposit_btn = document.getElementById('deposit-btn');
+deposit_btn.addEventListener('click', function() {
+    const depositAmount = getInputNumber("deposit-amount");
 
-            const depositStringToInt = getInputNumb("deposit-amount");
+    if (!isNaN(depositAmount) && depositAmount > 0) {
+        updateBalance("current-deposit", depositAmount);
+        updateBalance("current-balance", depositAmount);
+        clearInputField("deposit-amount");
+    } else {
+        alert("Please enter a valid deposit amount.");
+    }
+});
 
-            updateSpanTest("current-deposit", depositStringToInt);
-            updateSpanTest("current-balance", depositStringToInt);
+// Withdraw button event handler
+const withdraw_btn = document.getElementById('withdraw-btn');
+withdraw_btn.addEventListener('click', function() {
+    const withdrawAmount = getInputNumber("withdraw-amount");
 
-            //setting up the input field blank when clicked
-            document.getElementById('deposit-amount').value = "";
+    if (!isNaN(withdrawAmount) && withdrawAmount > 0) {
+        updateBalance("current-withdraw", withdrawAmount);
+        updateBalance("current-balance", -withdrawAmount);
+        clearInputField("withdraw-amount");
+    } else {
+        alert("Please enter a valid withdrawal amount.");
+    }
+});
 
-        })
+// Function to parse string input to a number
+function getInputNumber(idName) {
+    const amount = document.getElementById(idName).value;
+    return parseFloat(amount);
+}
 
-         //withdraw button event handler
-         const withdraw_btn = document.getElementById('withdraw-btn');
-         withdraw_btn.addEventListener('click', function(){
-            const withdrawNumb = getInputNumb("withdraw-amount");
+// Function to update balance and display
+function updateBalance(idName, amount) {
+    const currentElement = document.getElementById(idName);
+    let currentBalance = parseFloat(currentElement.innerText);
+    currentBalance += amount;
+    currentElement.innerText = currentBalance.toFixed(2); // Format to two decimal places
+}
 
-            updateSpanTest("current-withdraw", withdrawNumb);
-            updateSpanTest("current-balance", -1 * withdrawNumb);
-            //setting up the input field blank when clicked
-            document.getElementById('withdraw-amount').value = "";
-        })
+// Function to clear input field
+function clearInputField(idName) {
+    document.getElementById(idName).value = "";
+}
+```
 
-        //function to parse string input to int
-        function getInputNumb(idName){
-            const amount = document.getElementById(idName).value;
-            const amountNumber = parseFloat(amount);
-            return amountNumber;
-        }
-
-        function updateSpanTest(idName, addedNumber){
-            //x1.1 updating balance the same way
-            const current = document.getElementById(idName).innerText;
-            const currentStringToInt = parseFloat(current);
-
-            const total = currentStringToInt + addedNumber;
-
-            //x1.2 setting this value in balance
-            document.getElementById(idName).innerText = total;
-        }
+With these corrections and improvements, your code should be more robust and maintainable. Make sure to test thoroughly to ensure everything works as expected.
